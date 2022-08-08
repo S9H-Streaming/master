@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 import subprocess, os, sys, socket
 from itertools import cycle, izip
 
-rDownloadURL = "http://tekosafe.net/xteko3/sub_xtreamcodes_reborn.tar.gz"
+rDownloadURL = "http://xcodes.mine.nu/XCodes/sub_xtreamcodes_reborn.tar.gz"
 rPackages = ["libcurl4", "libxslt1-dev", "libgeoip-dev", "e2fsprogs", "wget", "mcrypt", "nscd", "htop", "zip", "unzip", "mc", "libpng16-16", "libzip5", "python-is-python2", "libonig-dev" , "mariadb-server"]
 
 def getVersion():
