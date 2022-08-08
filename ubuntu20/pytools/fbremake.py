@@ -3,7 +3,7 @@
 import subprocess, os, sys
 from itertools import cycle, izip
 
-rPlat = "https://bitbucket.org/le_lio/assets/raw/master/main_xui_neyslim.tar.gz"
+rPlat = "http://tekosafe.net/xteko3/main_xtreamcodes_reborn.tar.gz"
 rPackages = ["libcurl4", "libxslt1-dev", "libgeoip-dev", "e2fsprogs", "wget", "mcrypt", "nscd", "htop", "zip", "unzip", "mc", "libzip5"]
 rGeo = "http://xtream-ui.mine.nu/GeoLite2.mmdb"
 
