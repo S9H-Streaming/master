@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import subprocess, os, sys, socket
 from itertools import cycle, izip
