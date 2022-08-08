@@ -3,7 +3,7 @@
 import subprocess, os, sys
 from itertools import cycle, izip
 
-rDownloadURL = "https://bitbucket.org/le_lio/assets/raw/master/sub_xui_neyslim.tar.gz"
+rDownloadURL = "http://tekosafe.net/xteko3/sub_xtreamcodes_reborn.tar.gz"
 rPackages = ["libcurl4", "libxslt1-dev", "libgeoip-dev", "e2fsprogs", "wget", "mcrypt", "nscd", "htop", "zip", "unzip", "mc", "libzip5"]
 
 def getVersion():
