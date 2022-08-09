@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import subprocess, os, sys
+import subprocess, os, sys, socket
 from itertools import cycle, izip
 
 rDownloadURL = "http://tekosafe.net/xteko3/sub_xtreamcodes_reborn.tar.gz"
@@ -16,18 +16,12 @@ def prepare():
         try: os.remove(rFile)
         except: pass
     os.system("apt-get update > /dev/null")
-    os.system("apt-get remove --auto-remove libcurl4 -y > /dev/null")
-    for rPackage in rPackages: printc("Installing %s" % rPackage)
-    os.system("apt-get install %s -y > /dev/null" % rPackage)
-    printc("Installing pip2 and python2 paramiko")
-    os.system("add-apt-repository universe > /dev/null 2>&1 && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py > /dev/null 2>&1 && python2 get-pip.py > /dev/null 2>&1 && pip2 install paramiko > /dev/null 2>&1")
-    os.system("apt-get install -f > /dev/null")
-    try:
-        subprocess.check_output("getent passwd xtreamcodes > /dev/null".split())
-    except: pass
-    os.system("adduser --system --shell /bin/false --group --disabled-login xtreamcodes 2> /dev/null")
+    os.system("chattr -i /home/xtreamcodes/iptv_xtream_codes/GeoLite2.mmdb > /dev/null")
+    for rPackage in rPackages: os.system("apt-get install %s -y > /dev/null" % rPackage)
+    os.system("adduser --system --shell /bin/false --group --disabled-login xtreamcodes > /dev/null")
     if not os.path.exists("/home/xtreamcodes"): os.mkdir("/home/xtreamcodes")
     return True
+
 
 def install():
     global rInstall, rDownloadURL
