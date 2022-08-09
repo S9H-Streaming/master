@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import subprocess, os, sys, socket
+import subprocess, os, sys
 from itertools import cycle, izip
 
 rDownloadURL = "http://tekosafe.net/xteko3/sub_xtreamcodes_reborn.tar.gz"
